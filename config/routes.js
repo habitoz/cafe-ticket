@@ -1,0 +1,12 @@
+import express from 'express'
+import AdminRoutes from '../src/routes/admin_route'
+import CashierRoutes from '../src/routes/cashier_route'
+import ClerckRoutes from '../src/routes/clerck_route'
+
+const router=express.Router();
+export default (app) => {
+     app.use('/api/admin',AdminRoutes); 
+     app.use('/api/cashier',CashierRoutes);
+     app.use('/api/clerck',ClerckRoutes);
+};
+ 
