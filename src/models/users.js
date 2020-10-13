@@ -4,16 +4,12 @@ const jwt = require('jsonwebtoken');
 const config=require('config')
 
         var schema = new Schema({
-            firstName: {
+            fullName: {
                 type: String,
                  trim: true, 
                  required: true 
             },
-            lastName: {
-                type: String,
-                 trim: true, 
-                 required: true 
-            },
+           
         email : {
                 type: String,
                 unique: true,
@@ -24,7 +20,8 @@ const config=require('config')
                 required:true,
                 trim:true
             },
-            role:{type:String,required:true},
+            role:{type:String,required:true,enum:['cashier','clerck']},
+            status: { type: String, default: 'active',enum:['active','inactive'] },
             emailVerified: { type: Boolean, default: false },
             
         }, {timestamps: true});
@@ -83,4 +80,4 @@ const config=require('config')
 
 
 
-export default mongoose.model("Cashier",schema); 
+export default mongoose.model("Clerck",schema); 

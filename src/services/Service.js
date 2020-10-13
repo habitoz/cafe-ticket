@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
+const moment = require('moment')
 
 class Service {
   constructor(model) {
     this.model = model;
     this.getAll = this.getAll.bind(this);
+    this.get=this.get.bind(this)
     this.insert = this.insert.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
@@ -55,13 +57,32 @@ class Service {
       };
     }
   }
-
+  async get({id}){
+    try {
+      let item = await this.model.findById(id);
+      return {
+        error: false,
+        statusCode: 202,
+        item
+      };
+    } catch (error) {
+      return {
+        error: true,
+        statusCode: 500,
+        error
+      };
+    }
+  }
   async getAll(query) {
-    let { skip, limit } = query;
+    let { skip, limit,createdAt } = query;
 
     skip = skip ? Number(skip) : 0;
     limit = limit ? Number(limit) : 10;
-
+    createdAt=createdAt?new Date(createdAt):new Date();
+    console.log(createdAt);
+   if(query.createdAt){
+    query.createdAt=createdAt
+    }
     delete query.skip;
     delete query.limit;
 
@@ -74,11 +95,24 @@ class Service {
     }
 
     try {
-      let items = await this.model
-        .find(query)
+      let items;
+      if(query.createdAt){
+        const today = moment(query.createdAt).startOf('day')
+       items= await this.model
+        .find({createdAt: {
+          $gte: today.toDate(),
+          $lte: moment(today).endOf('day').toDate()
+        }})
         .skip(skip)
-        .limit(limit);
-      let total = await this.model.countDocuments();
+        .limit(limit).sort('-createdAt');
+        }
+        else{
+          items=await this.model
+          .find(query)
+          .skip(skip)
+          .limit(limit).sort('-createdAt');
+        }
+        let total = await this.model.countDocuments();
 
       return {
         error: false,
@@ -86,7 +120,10 @@ class Service {
         data: items,
         total
       };
-    } catch (errors) {
+      
+      }     
+      
+    catch (errors) {
       return {
         error: true,
         statusCode: 500,

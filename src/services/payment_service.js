@@ -1,7 +1,7 @@
 import Service from './Service';
 import moment from 'moment';
 
-class OrderService extends Service {
+class PaymentService extends Service {
   constructor(model) {
     super(model);
   }
@@ -82,4 +82,4 @@ class OrderService extends Service {
   }
 };
 
-export default OrderService;
+export default PaymentService;

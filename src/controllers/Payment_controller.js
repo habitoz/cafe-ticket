@@ -1,9 +1,9 @@
 import Controller from  './Controller';
-import OrderService from  "./../services/order_service";
-import Order from  "./../models/order";
-const order_service = new OrderService(Order);
+import PaymentService from  "./../services/payment_service";
+import Payment from  "./../models/payment";
+const payment_service = new PaymentService(Payment);
 
-class OrderController extends Controller {
+class PaymentController extends Controller {
 
   constructor(service) {
     super(service);
@@ -19,4 +19,4 @@ class OrderController extends Controller {
   }
 }
 
-export default new OrderController(order_service);
+export default new PaymentController(payment_service);
