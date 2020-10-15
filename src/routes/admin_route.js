@@ -19,6 +19,7 @@ const router=express.Router();
   router.post(`/gross-sale-report`, OrderController.grossSale)
   router.post(`/net-sale-report`, OrderController.netSale)
   router.post(`/gross-profit-report`, OrderController.grossProfit)
+  router.get('/cross-check',AdminController.crossCheck)
 
   //PRODUCT ROUTES
   router.get(`/product`, ProductController.getAll);

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config=require('config')
 
         var schema = new Schema({
-            fullName: {
+            full_name: {
                 type: String,
                  trim: true, 
                  required: true 
@@ -20,10 +20,10 @@ const config=require('config')
                 required:true,
                 trim:true
             },
-            role:{type:String,required:true,enum:['cashier','clerck']},
+            role:{type:String,default:'casher',required:true,enum:['casher','clerck','manager']},
             status: { type: String, default: 'active',enum:['active','inactive'] },
             emailVerified: { type: Boolean, default: false },
-            
+            description:{type:String}
         }, {timestamps: true});
         schema.pre('save', async function (next) {
             const user = this

@@ -37,7 +37,6 @@ class Service {
     console.log('from')
     try {
       const user=await this.model.findByCredentials(data.email,data.password);
-      console.log(`from cinema ${user}`)
       let token;
       if(user){
         token=await user.generateToken()
@@ -46,7 +45,8 @@ class Service {
         err: false,
         statusCode: 200,
         message: 'login sucessfull',
-        token
+        token,
+        user
       };
     } catch (err) {
       return {
@@ -98,8 +98,9 @@ class Service {
       let items;
       if(query.createdAt){
         const today = moment(query.createdAt).startOf('day')
+        delete query.createdAt;
        items= await this.model
-        .find({createdAt: {
+        .find({...query,createdAt: {
           $gte: today.toDate(),
           $lte: moment(today).endOf('day').toDate()
         }})

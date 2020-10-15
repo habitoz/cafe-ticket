@@ -2,7 +2,7 @@ import OrderController from '../controllers/order_controller';
 import PaymentController from '../controllers/Payment_controller';
 import express from 'express'
 const router=express.Router();
-
+ 
   // ORDER ROUTES
   router.get(`/order`, OrderController.getAll);
   router.get(`/order/:id`, OrderController.get);
